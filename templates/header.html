@@ -1,0 +1,89 @@
+<header>
+    <div class="px-3 py-2 bg-primary text-white">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                {% comment %}
+                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+                {% endcomment %}
+
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <li>
+                        <a href="{% url 'customer' %}" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#home"></use>
+                            </svg>
+                                Customer Information
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'customer_activities' %}" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#speedometer2"></use>
+                            </svg>
+                                Customer Activities
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'operator_activities' %}" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#table"></use>
+                            </svg>
+                                Operator Activities
+                        </a>
+                    </li>
+                    {% if request.user.user_type != 'operator' %}
+                    <li>
+                        <a href="{% url 'operator' %}" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#grid"></use>
+                            </svg>
+                                Operators
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <div>
+                    <ul class="nav">
+                        <li class="nav-item">
+                             Welcome {{ request.user.username }}
+                        </li>
+                        <li class="nav-item">
+                            <form action="{% url 'logout' %}" method="post">
+                                <button type="submit" class="form-control btn btn-primary" >Logout</button>
+                                {% csrf_token %}
+                            </form>
+                        </li>
+                        <li class="nav-item">
+                            <form action="{% url 'password_change' %}" method="post">
+                                <button type="submit" class="form-control btn btn-primary" >Change Password</button>
+                                {% csrf_token %}
+                            </form>
+                        </li>
+
+                        {% comment %}
+                        <li>
+                            <form action='#' method="post">
+                                <button type="submit" class="form-control btn btn-primary" >Sign-up</button>
+                                {% csrf_token %}
+                            </form>
+                        </li>
+                        {% endcomment %}
+                </ul>
+            </div>
+            </div>
+        </div>
+    </div>
+{% comment %}
+    <div class="px-3 py-2 border-bottom mb-3">
+        <div class="container d-flex flex-wrap justify-content-center">
+            <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            </form>
+        </div>
+    </div>
+{% endcomment %}
+</header>

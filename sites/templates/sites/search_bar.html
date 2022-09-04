@@ -1,0 +1,209 @@
+{%  load static %}
+
+<div class="accordion accordion-flush" id="side-menu">
+{#    Search & Filter #}
+    <div class="accordion-item">
+{#    Search & Filter Header#}
+        <h2 class="accordion-header" id="search-filter-h2">
+            <button class="accordion-button collapsed"
+                    type="button" data-bs-toggle="collapse"
+                    data-bs-target="#search-filter" aria-expanded="true"
+                    aria-controls="search-filter">
+                Search & Filter
+            </button>
+        </h2>
+
+        <div id="search-filter" class="accordion-collapse collapse show"
+             aria-labelledby="search-filter-h2" data-bs-parent="#side-menu">
+            <div class="accordion-body">
+{#            Stores : all store, eta, gama, etc #}
+            {% if store_enabled %}
+                <div class="row" id="store-bar">
+                    <div class="form-check input-group mb-3 w-100 form-switch">
+                        <input class="form-check-input" type="checkbox"
+                               value="" id="all_store"  checked>
+                        <label class="form-check-label" for="all_store"> All Store</label>
+                    </div>
+
+                    {% for s in stores %}
+                        <div class="form-check input-group mb-3 w-100 form-switch">
+                            <input name="store" class="form-check-input" type="checkbox"
+                                   value="{{ s.id }}" id="{{ s.name }}"  checked>
+                            <label class="form-check-label" for="{{ s.name }}"> {{ s.name }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+{#              Search by phone, first name #}
+                <div class="row">
+                    <div class="position-relative input-group mb-3 w-100">
+                        <span class="position-absolute search"><i class="fa fa-search"></i></span>
+                        <input id="searchbar" name="q" class="form-control"
+                               placeholder="Search by phone#, first name" autofocus>
+                    </div>
+                </div>
+{#            Date Filter #}
+{#                  From Date #}
+                <div class="row">
+
+                    <div id="date_filter" class="input-group mb-3 w-100">
+                        <input type="date" id="from_date" name="from_date"
+                               min="2021-01-01" max="2100-01-01" class="form-control">
+                    </div>
+                </div>
+{#                  To Date #}
+                <div class="row">
+                    <div id="date_filter" class="input-group mb-3 w-100">
+                        <input type="date" id="to_date" name="to_date" value=""
+                               min="2021-01-01" max="2100-01-01" class="form-control">
+                    </div>
+                </div>
+
+{#            Shift #}
+                {%  if shift_enabled %}
+                    <div class="row" id="shift-bar">
+{#                    All Shift #}
+                        <div class="form-check input-group mb-3 w-100 form-switch">
+                        <input class="form-check-input" type="checkbox"  value="" id="all_shift" checked>
+                        <label class="form-check-label" for="all_shift">All Shift</label>
+                    </div>
+{#                    Sub Shift #}
+                    {% for key, value in shifts.items %}
+                        <div class="form-check input-group mb-3 w-100 form-switch">
+                            <input class="form-check-input" type="checkbox" name="shift"
+                                   value="" id="{{ key }}" checked>
+                            <label class="form-check-label" for="{{ key }}">{{ value }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {% endif %}
+
+{#              Button Search and Reset Filter #}
+                <div class="row">
+{#                    Search Button #}
+                    <div class="col">
+                        <div class="position-relative input-group mb-3 w-100">
+                            <button id="filter_by_date" type="button" class="btn btn-primary">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+{#                    Reset Filter Button #}
+                    <div class="col">
+                        <div class="position-relative input-group mb-3 w-100">
+                            <button id="reset_date_filter"
+                                    type="button" class="btn btn-secondary center-block">
+                                Reset Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+{#                    Send QR Code to Selected Customer#}
+                    <div class="col">
+                        <div class="position-relative input-group mb-3 w-100">
+                            <button id="txt_qr_code" type="button" class="btn btn-primary">
+                                Send QR Code to <span id="txt_selected">0</span> Selected Customer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% if request.user.user_type != 'operator' %}
+{# Export #}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="export-h2">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#export" aria-expanded="false"
+                    aria-controls="export">
+                Export
+            </button>
+        </h2>
+        <div id="export" class="accordion-collapse collapse"
+             aria-labelledby="export-h2" data-bs-parent="#side-menu">
+
+            <div class="accordion-body">
+{#                Export All records from the search results #}
+                <div class="row">
+                    <button id="export_all" type="button"
+                            class="btn btn-primary center-block">
+                        Export ALL <span id="total_records">{{ total }}</span> records
+                    </button>
+                </div>
+                <br/>
+{#                Export all records selected in the current page #}
+                <div class="row">
+                    <button id="export_selected" type="button"
+                            class="btn btn-primary center-block">
+                        Export Selected <span id="selected_records">0</span> records
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endif %}
+{# Send MSG : manage customer information#}
+    {% if msg_enabled %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="msg-h2">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#msg"
+                        aria-expanded="false" aria-controls="msg">
+                    Send Messages
+                </button>
+            </h2>
+            <div id="msg" class="accordion-collapse collapse" aria-labelledby="msg-h2"
+                 data-bs-parent="#side-menu">
+                <div class="accordion-body">
+{#                    MSG text area#}
+                    <div class="row">
+                        <textarea id="msg_content" class="form-control"
+                                  rows="7" placeholder="Message">
+
+                        </textarea>
+                    </div>
+                    <hr/>
+{#                    Select Multiple Files to upload  #}
+                    <div class="row">
+                        <label for="multi-files">Select Multiple Files at One time</label>
+                        <input type="file" class="form-control" id="multi_files" multiple/>
+                    </div>
+                    <p>OR</p>
+{#                    Select File one by one#}
+                    <div class="row">
+                        <form enctype="multipart/form-data">
+                            <button class="add btn btn-success">
+                                Add Image File one by one
+                            </button>
+                        </form>
+                        <hr/>
+                        <ul class="list-group multi_file_list"></ul>
+                        <ul class="list-group file_selected"></ul>
+                    </div>
+                    <hr/>
+{#                    Button to send msg to all selected customers from result set #}
+                    <div class="row">
+                        <button id="msg_all" type="button" class="btn btn-primary center-block">
+                            Send Messages to <span id="total_records_msg">{{ total }}</span> customers
+                        </button>
+                    </div>
+                    <br/>
+{#                    Button to send msg to selected customers from the current page #}
+                    <div class="row">
+                        <button id="msg_selected" type="button" class="btn btn-primary center-block">
+                            Send Messages to Selected <span id="selected_records_msg"></span> customers
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'sites/js/cust/upload_img.js' %}"></script>
+    {% endif %}
+</div>
+
+<script src="{%  static 'sites/js/search_bar.js' %}"></script>

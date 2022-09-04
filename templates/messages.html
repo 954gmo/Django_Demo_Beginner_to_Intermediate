@@ -1,0 +1,18 @@
+<div id="messages">
+    {% if messages %}
+        <ul class="messages">
+            {%  for message in messages %}
+                <li class="{{ message.tags }}">
+                    {{ message|safe }}
+                    <a href="#" class="close">X</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+<div id="msg-div" style="display: none">
+    <ul class="messages">
+        <li class="success" id="msg"></li>
+    </ul>
+</div>

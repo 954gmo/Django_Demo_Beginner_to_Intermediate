@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% load sites_filters %}
+
+{% block title %}View Customer Activities{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 px-2">
+        <div class="row">
+            <div class="col">
+                <div class="table-responsive" id="search_result">
+                    <div>
+                        {% include 'sites/statistics.html' %}
+                    </div>
+                     <table class="table table-striped table-hover">
+                        <thead>
+                            <tr class="bg-light">
+                                <th scope="col">
+                                    <input id='all' class="form-check-input" type="checkbox"
+                                           onclick="check_all(this);">
+                                </th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Check-in Time</th>
+                                <th scope="col">Shift</th>
+                                <th scope="col">Operator</th>
+                                <th scope="col">Store Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for customer in customers %}
+                                <tr>
+                                    <th scope="row">
+                                        <input id="{{ customer.id }}" name="record"
+                                               class="form-check-input"
+                                               type="checkbox" onclick="check();">
+                                    </th>
+                                    <td>{{ customer.customer.first_name }}</td>
+                                    <td>{{ customer.customer.last_name }}</td>
+                                    <td>{{ customer.customer.phone }}</td>
+                                    <td>{{ customer.check_in_time }}</td>
+                                    <td>{{ customer.shift|shifts }}</td>
+                                    <td>{{ customer.operator.username }}</td>
+                                    <td>{{ customer.store.name }}</td>
+                                </tr>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div>
+                        {%  include "sites/pagination.html" %}
+                    </div>
+                </div>
+            </div>
+            <div class="col col-lg-3">
+                {%  include "sites/search_bar.html" %}
+            </div>
+        </div>
+        <script src="{% static 'js/search_result_checkboxes.js' %}"></script>
+    </div>
+{% endblock %}
+
+

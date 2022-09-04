@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Add Operator {%  endblock %}
+
+{%  block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <div class="card">
+                    <form class="form-control" method="post">
+                        <ul class="list-group list-group-flush">
+                            {% for field in form %}
+                                <li class="list-group-item">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ field.label }}</span>
+                                        {{ field }}
+                                        {% if field.name == "username" %}
+                                            <hr/>
+                                            <span id="dup_username" style="color: red"></span>
+                                        {% endif %}
+                                        <span style="color: #1586de">{{ field.help_text }}</span>
+
+                                    </div>
+                                </li>
+                            {% endfor %}
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col"></div>
+                                    <div class="col">
+                                        <input type="submit" value="Add" name="add" class="btn btn-success">
+                                    </div>
+                                    <div class="col"></div>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+
+    <script>
+    $(document).ready(function () {
+        console.log(window.location.pathname)
+        $('#id_username').change(function (e) {
+            $.get(
+                window.location.pathname,
+                {
+                    'n': $(this).val()
+                },
+            ).done(function (data, textStatus, jqXHR) {
+                if (data.status === 201) {
+                    let msg = `username: '${$('#id_username').val()}' already exists!`;
+                    $('#dup_username').html(msg);
+                    $('#dup_username').show();
+                }else if(data.status === 200){
+                    $('#dup_username').hide();
+                }
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            });
+
+
+        });
+        $('#id_user_type option[value="root"]').remove();
+        const username = $('#id_username');
+
+        $('#id_password');
+        $('#id_first_name');
+    });
+    </script>
+{% endblock %}
+

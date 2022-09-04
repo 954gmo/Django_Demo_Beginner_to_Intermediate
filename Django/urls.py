@@ -21,4 +21,10 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('login/', user_login, name='login'),
+    path('logout/', user_logout, name='logout'),
+    path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
+
+    path('api/', include('api.urls')),
+    path('', include('sites.urls')),
 ]

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    {% if no_exist %}
+        <div class="alert alert-danger" role="alert">
+            <h1 class="text-center">
+                operator {{ pk }} doesn't exist!
+            </h1>
+        </div>
+    {% else %}
+        <div class="container" id="op_detail">
+            <div class="card mx-auto" style="width: 70%;">
+                <div class="card-body">
+                    <h5 class="card-title">Operator ID: {{ operator.id }}</h5>
+                    <span id="op_id" style="display: none">{{ operator.id }}</span>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="input-group mb-3  w-50">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">User Name</span>
+                            </div>
+                            <input type="text" class="form-control" disabled
+                                   value="{{ operator.username }}" id ="username">
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group mb-3  w-50">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">First Name</span>
+                            </div>
+                            <input type="text" class="form-control"
+                                   placeholder="First Name" value="{{ operator.first_name }}" id ="first_name">
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group mb-3  w-50">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Last Name</span>
+                            </div>
+                            <input type="text" class="form-control"
+                                   placeholder="Last Name" value="{{ operator.last_name }}" id ="last_name">
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group mb-3  w-50">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Email</span>
+                            </div>
+                            <input type="text" class="form-control"
+                                   placeholder="Last Name" value="{{ operator.email }}" id ="email">
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group mb-3  w-50">
+                            <div class="form-check form-switch">
+                                <div class="form-check form-switch input-group">
+                                    <input class="form-check-input" type="checkbox" role="switch"  id="is_active" {% if operator.is_active %} checked {% endif %} >
+                                    <label class="form-check-label" for="is_active">Active</label>
+                                    <span style="color: #1586de">
+                                        Designates whether this user
+                                        should be treated as active.
+                                        Unselect this instead of deleting accounts.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group mb-3  w-50">
+                            <div class="input-group">
+                                <span class="input-group-text">User type</span>
+                                <select name="user_type" id="user_type">
+                                    <option value="operator">
+                                        Operator
+                                    </option>
+                                    <option value="store_manager" {% if operator.user_type == 'store_manager' %} selected {% endif %}>
+                                        Store Manager
+                                    </option>
+                                    {% if admin_enabled %}
+                                        <option value="admin" {% if operator.user_type == 'admin' %} selected {% endif %}>
+                                            Administration
+                                        </option>
+                                    {% endif %}
+                                    {% if operator.user_type == 'superuser' %}
+                                        <option value="superuser" selected>
+                                            Superuser
+                                        </option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group mb-3 w-50">
+                            <div class="form-check form-switch">
+                            <div class="form-check form-switch input-group">
+                                <input class="form-check-input" type="checkbox" role="switch"  id="chk_change_password" >
+                                <label class="form-check-label" for="chk_change_password">Change Password</label>
+                            </div>
+                        </div>
+                        </div>
+                    </li>
+
+                    <div id="password_change_div" style="display: none">
+                        <div id="msg_pass" style="display: none">
+                            <ul class="messages">
+                                <li class="success">
+                                    <span>Password Changed</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <li class="list-group-item">
+                            <div class="input-group mb-3 w-50">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">New password</span>
+                                </div>
+                                <input type="password" name="new_password1"
+                                       class="form-control"
+                                       autocomplete="new-password"
+                                       required="" id="new_password1">
+                            </div>
+                            <li class="list-group-item">
+                                <ul>
+                                    <li>
+                                        Your password can’t be too similar to your other personal information.
+                                    </li>
+                                    <li>
+                                        Your password must contain at least 8 characters.
+                                    </li>
+                                    <li>
+                                        Your password can’t be a commonly used password.
+                                    </li>
+                                    <li>
+                                        Your password can’t be entirely numeric.
+                                    </li>
+                                </ul>
+                            </li>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="input-group mb-3 w-50">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">New password confirmation:</span>
+                                </div>
+                                <input type="password" name="new_password2"
+                                       class="form-control"
+                                       autocomplete="new-password" required="" id="new_password2">
+                            </div>
+                            <span id="warning" style="color: red; display: none">Password Does not Match</span>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col col-lg-4"></div>
+                                <div class="col col-lg-4">
+                                        <input id="change_password" type="submit" value="Change" class="btn btn-success">
+                                </div>
+                                <div class="col col-lg-4"></div>
+                            </div>
+
+                        </li>
+                    </div>
+                </ul>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col col-lg-2">
+                        </div>
+                        <div class="col col-lg-2"></div>
+                        <div class="col col-lg-3"></div>
+                        <div class="col col-lg-2"></div>
+                        <div class="col col-lg-2">
+                            <button class="btn btn-primary btn-lg" id="save">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="{%  static 'sites/js/op/edit_user.js' %}"></script>
+    {% endif %}
+{% endblock %}
