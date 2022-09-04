@@ -1,0 +1,30 @@
+@ECHO OFF
+:: setup environment variables for the settings.py
+SETX -m SECRET_KEY ""
+
+:: SETUP DATABASE ENV
+SETX -m DB_NAME "<your_val"
+SETX -m DB_PASS ""
+SETX -m DB_USER ""
+SETX -m DB_HOST ""
+SETX -m DB_PORT 5432
+
+:: SETUP APP ENV
+SETX -m QR_CODE ""
+SETX -m CUSTOMER_IMG ""
+SETX -m CUSTOMER_ID ""
+
+SETX -m LOGO_URL ""
+SETX -m QR_BASEURL ""
+SETX -m IMG_BASEURL ""
+
+SETX -m SMS_ACCT ""
+SETX -m SMS_TOKEN ""
+SETX -m SMS_FROM_NUMBER ""
+SETX -m SMS_ADMIN_NUMBER ""
+SETX -m SMS_MGMT_NUMBER ""
+SETX -m SMS_IMG ""
+SETX -m SMS_IMG_URL ""
+SETX -m LOG_DIR ""
+
+
