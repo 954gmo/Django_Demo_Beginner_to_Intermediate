@@ -1,5 +1,4 @@
 import datetime
-import os
 import random
 from django.conf import settings
 from django.utils import timezone
@@ -11,34 +10,7 @@ from sites.models import (Store, Customer, CustomerActivities,
                           CustomerActivationLog, OperatorActivities)
 
 
-def clean_migrations_and_database():
-    # clean migrations and database
-    acct_migrations = os.path.join(settings.BASE_DIR, 'accounts', 'migrations')
-    sites_migrations = os.path.join(settings.BASE_DIR, 'sites', 'migrations')
-    sqlite3_db = os.path.join(settings.BASE_DIR, 'db.sqlite3')
-
-    if os.path.exists(sqlite3_db):
-        os.remove(sqlite3_db)
-
-    for f in os.listdir(acct_migrations):
-        if f.startswith('0'):
-            p = os.path.join(acct_migrations, f)
-            if os.path.exists(p):
-                os.remove(p)
-
-    for f in os.listdir(sites_migrations):
-        if f.startswith('0'):
-            p = os.path.join(sites_migrations, f)
-            if os.path.exists(p):
-                os.remove(p)
-
-
-def populate_sample_database():
-    clean_migrations_and_database()
-
-    # make migrations and migrate
-    os.system('python manage.py makemigrations')
-    os.system('python manage.py migrate')
+def populate_database():
 
     # populate database
     Store.objects.create(name=Store.STORES[0][0], address='eta address', phone='9541234564', administrator='eta admin')

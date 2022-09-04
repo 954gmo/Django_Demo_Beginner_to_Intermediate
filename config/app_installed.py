@@ -17,3 +17,5 @@ INSTALLED_APPS += [
     'api.apps.ApiConfig',
     'sites.apps.SitesConfig',
 ]
+
+AUTH_USER_MODEL = 'accounts.Operator'
