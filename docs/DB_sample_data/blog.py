@@ -17,11 +17,14 @@ from blog.models import Post, Comment
 
 
 def populate_database():
+    print('populating User')
     password = 'dlfkajsdkl'
     User.objects.create_superuser(username='admin', email='admin@example.com', password=password)
     User.objects.create_user(username='user_1', email='user_1@example.com', password=password)
     User.objects.create_user(username='user_2', email='user2@example.com', password=password)
+    print('finished populating User')
 
+    print("preparing data for Post")
     authors = User.objects.all()
     titles = [
                 "How to create a website using Pelican and Netlify (January 2021)",
@@ -84,12 +87,13 @@ def populate_database():
         bodies.append(content[start:start+length])
 
     status = ['draft', 'published']
-
+    print("populating Post")
     for k in range(0, post_cnt):
         Post.objects.create(title=titles[k], body=bodies[k],
                             slug=slugify(titles[k]),
                             author=random.choice(authors),
                             status=random.choice(status))
+    print('finished populating Post')
 
     tags = [
         "technology", "india", "bhfyp", "business", "marketing", "gaming",
@@ -97,12 +101,14 @@ def populate_database():
         "technology", "techno", "science", "tech", "covid", "android",
         "engineering", "mobile", "innovation",
     ]
+    print("populating tags")
     posts = Post.objects.all()
     for i in range(0, len(posts)):
         tag_cnt = random.randint(2, 5)
         for e in random.sample(tags, tag_cnt):
             posts[i].tags.add(e)
         posts[i].save()
+    print("finished populating tags")
 
     posts = Post.published.all()
     names = [
@@ -131,10 +137,12 @@ def populate_database():
         length = random.randint(100, 500)  # length of each post
         bodies.append(content[start:start+length])
 
+    print('Populating Comment')
     for k in range(0, len(posts)*4):
         Comment.objects.create(post=random.choice(posts), name=random.choice(names),
                                email=random.choice(emails), body=random.choice(bodies))
 
+    print("finished populating comment")
     site = Site()
     site.domain = 'localhost:8000'
     site.save()
