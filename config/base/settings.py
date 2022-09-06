@@ -20,14 +20,11 @@ CONFIGS = {
     'DESKTOP-0UV5SFP': 'local',  # change 'DESKTOP-0UV5SFP' to your machine name
     'Tutorial': 'prod',  # change 'Tutorial' to your machine name
 }
-config = f'config.{CONFIGS[HOST]}'
+config = f'config.blog.{CONFIGS[HOST]}'
 
 setting_module_files = [
-    'config.base',  # setup base settings that are common to all profile, local, production or other env
-    'config.app_installed',  # making it easier to manage different tutorial apps,
+    'config.blog.base',  # setup base settings that are common to all profile, local, production or other env
     config,  # Automatically Determine which configuration file to setup with, by the hostname
-    'config.logging_conf',  # setup logging
-    'config.sitewide_conf',  # some site-wide ENV
 ]
 
 try:

@@ -15,16 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
-from accounts.views.auth import user_login, user_logout
-from django.contrib.auth import views as auth_views
+from django.contrib.sitemaps.views import sitemap
+from blog.sitemaps import PostSitemap
+
+sitemaps = {
+    'posts': PostSitemap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    path('login/', user_login, name='login'),
-    path('logout/', user_logout, name='logout'),
-    path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
-
-    path('api/', include('api.urls')),
-    path('', include('sites.urls')),
+    # namespace have to be unique accross your entire project.
+    # https://docs.djangoproject.com/en/4.1/topics/http/urls/#url-namespaces
+    path('blog/', include('blog.urls', namespace='blog')),
+    # the sitemaps dictionary is passed to the sitemap view
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]

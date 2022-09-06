@@ -12,6 +12,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def sample(demo, name):
+    globals()[f'dir_{demo}'](name)
+
+
 def dir_content(folder):
     res = os.listdir(os.path.join(BASE_DIR, folder))
     for f in res:
@@ -19,4 +23,7 @@ def dir_content(folder):
 
 
 if __name__ == "__main__":
-    dir_content('config')
+    # locals()['dir_content']('config')
+    # globals()['dir_content']('api')
+    sample('content', 'Django')
+

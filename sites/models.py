@@ -1,7 +1,7 @@
 from django.db import models
 from accounts.models import Operator
 from django.utils import timezone
-from config.sitewide_conf import SHIFTS
+from config.dashboard.sitewide_conf import SHIFTS
 
 
 class Store(models.Model):

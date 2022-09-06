@@ -7,35 +7,22 @@ __ENTITY_author__ = "SIX DIGIT INVESTMENT GROUP"
 __author__ = "GWONGZAN"
 
 import os
+from pathlib import Path
+from django.conf import settings
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-caebb+zs_ai6pc5g-kb&jlt626l4sgi*fjwhn5k8+9)vlznx+mg9ubl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['example.com', '*']
-CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ORIGIN_ALLOW_ALL = False
-# CORS_ORIGIN_WHITELIST = (
-#     'winnerwu.sixdigit.net',
-# )
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
-}
+ALLOWED_HOSTS = []
 
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DATABASE'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASS'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(settings.BASE_DIR, 'config', 'dashboard', 'db.sqlite3'),
     }
 }
 
@@ -47,13 +34,13 @@ LOGO_URL = os.getenv('LOGO_URL')
 QR_BASEURL = os.getenv('QR_BASEURL')
 IMG_BASEURL = os.getenv('IMG_BASEURL')
 
-SMS_ACCT = os.getenv('SMS_ACCT')
-SMS_TOKEN = os.getenv('SMS_TOKEN')
+SMS_ACCT = os.getenv('SMS_ACCT', 'lsdjfksd')
+SMS_TOKEN = os.getenv('SMS_TOKEN', 'skdjflksd')
 SMS_FROM_NUMBER = os.getenv('SMS_FROM_NUMBER')
 SMS_ADMIN_NUMBER = os.getenv('SMS_ADMIN_NUMBER')
-SMS_MGMT_NUMBER = os.getenv('SMS_MGMT_NUMBER').split(',')
+SMS_MGMT_NUMBER = os.getenv('SMS_MGMT_NUMBER', '').split(',')
 SMS_IMG = os.getenv('SMS_IMG')
 SMS_IMG_URL = os.getenv('SMS_IMG_URL')
 
-
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(settings.BASE_DIR, 'media/')

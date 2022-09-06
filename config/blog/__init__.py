@@ -5,4 +5,3 @@ from __future__ import print_function
 
 __ENTITY_author__ = "SIX DIGIT INVESTMENT GROUP"
 __author__ = "GWONGZAN"
-
