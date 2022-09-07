@@ -131,7 +131,9 @@ def post_search(request):
                                                      'results': results})
 
 
+#
 # Class-based View
+#
 class PostListView(ListView):
     # use a specific QuerySet instead of retrieving all objects
     queryset = Post.published.all()

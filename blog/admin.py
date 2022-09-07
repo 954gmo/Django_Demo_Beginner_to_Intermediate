@@ -5,16 +5,17 @@ from blog.models import Post, Comment
 
 # Register your models here.
 #
-# register model to the Django Admin sites
+# register model to the Django Admin sites by
 #
 # admin.site.register(Post)
 #
 # OR
 # use @admin.register decorator
-# Customize the way that models are display
+
 #
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
+    # Customize the way that models are display
     # set teh fields of your model that you want to display on the administration object list page
     list_display = ('title', 'slug', 'author', 'publish', 'status')
     list_filter = ('status', 'created', 'publish', 'author')

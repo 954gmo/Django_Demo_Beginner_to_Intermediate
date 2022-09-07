@@ -11,6 +11,7 @@ class ModelMixins:
         with connection.cursor() as cursor:
             cursor.execute(f'truncate table {cls._meta.db_table} CASCADE ')
 
+
 #
 # Customize managers for your models
 # you can has as many as you want
@@ -20,6 +21,8 @@ class ModelMixins:
 # 2. or create a new manager by modifying the initial QuerySet that the manager returns.
 #
 # by modifying the initial QuerySet
+# assign the Model manager to any name you want in the model class, here it is Post
+# published = PublishedManager() ,
 class PublishedManager(models.Manager):
 
     def get_queryset(self):
@@ -28,6 +31,9 @@ class PublishedManager(models.Manager):
 
 # https://docs.djangoproject.com/en/4.1/ref/models/fields/#field-types
 class Post(models.Model, ModelMixins):
+    """
+        define fields for the database table
+    """
     STATUS = (
         ('draft', 'Draft'),
         ('published', 'Published'),
@@ -71,8 +77,20 @@ class Post(models.Model, ModelMixins):
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS, default=STATUS[0][0])
 
+    """
+        End Field Definition
+    """
     def __str__(self):
         return self.title
+
+    # Meta class contains metadata
+    class Meta:
+        # tell Django to sort results by the publish field in descending order by default
+        # when you query the database,
+        ordering = ('-publish',)
+        #
+        # default_manager_name = 'published'
+        #
 
     # the first manager Django encounters is interpreted as default Manager
     # you can specify a custom default manager using Meta.default_manager_name
@@ -82,14 +100,6 @@ class Post(models.Model, ModelMixins):
     # the tags manager will allow you to add, retrieve, and remove tags from Post objects
     tags = TaggableManager()
     # Meta class inside the model contains metadata
-
-    class Meta:
-        # tell Django to sort results by the publish field in descending order by default
-        # when you query the database,
-        ordering = ('-publish',)
-        #
-        # default_manager_name = 'published'
-        #
 
     # Canonical URLs
     # https://docs.djangoproject.com/en/4.1/ref/urlresolvers/
